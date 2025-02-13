@@ -1,0 +1,23 @@
+{
+  "name": "backend-nodejs-express-typescript",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fish17tb/Backend-NodeJs-Express-TypeScript.git"
+  },
+  "author": "Nguyên Vũ",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fish17tb/Backend-NodeJs-Express-TypeScript/issues"
+  },
+  "homepage": "https://github.com/Fish17tb/Backend-NodeJs-Express-TypeScript#readme",
+  "description": "",
+  "dependencies": {
+    "express": "4.18.2"
+  }
+}
