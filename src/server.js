@@ -12,6 +12,9 @@ const hostname = process.env.HOST_NAME;
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+// config static files
+app.use(express.static(path.join(__dirname, "public")));
+
 // khai báo route
 app.get("/", (req, res) => {
   res.send("Hello World! Nguyen");
@@ -24,6 +27,5 @@ app.get("/test", (req, res) => {
 app.listen(port, hostname, () => {
   console.log(`Example app listening on port ${port}`);
 });
-
 
 // Mặc định, nodemon sẽ quan sát các file sau: .js
