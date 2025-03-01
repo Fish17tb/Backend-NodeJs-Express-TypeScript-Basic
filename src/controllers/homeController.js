@@ -1,7 +1,10 @@
 const connection = require("../config/database");
+const { getAllUsers } = require("../services/CRUD.Service");
 
-const getHomePage = (req, res) => {
-  return res.render("home.ejs");
+const getHomePage = async (req, res) => {
+  let results = await getAllUsers();
+  // console.log("check-result:", results);
+  return res.render("home.ejs", { listUsers: results });
 };
 
 const getName = (req, res) => {
@@ -18,7 +21,7 @@ const createUser = async (req, res) => {
   let { email, name, city } = req.body;
   console.log("email = ", email, "name = ", name, "city = ", city);
 
-  // use connection with call back
+  // use connection with call back function
   // connection.query(
   //   ` INSERT INTO Users (email, name, city) VALUES (?, ?, ?)`,
   //   [email, name, city],
@@ -37,7 +40,7 @@ const createUser = async (req, res) => {
   res.send("Created user success!");
 };
 
-const getPageCreate = (req, res) => {
+const getPageCreate = async (req, res) => {
   res.render("create.ejs");
 };
 
