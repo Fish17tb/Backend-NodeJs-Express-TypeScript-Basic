@@ -39,7 +39,6 @@
       <a href="/create">Create User</a>
     </div>
     <div class="table-container">
-      <%= JSON.stringify(listUsers) %>
       <div class="title">List User</div>
       <table>
         <tr>
@@ -49,31 +48,34 @@
           <th>City</th>
           <th>Action</th>
         </tr>
+
+        <!--use loop for to get static list users-->
+        <!-- <% for (let i = 0; i < listUsers.length; i++) { %>
         <tr>
-          <td>Peter</td>
-          <td>Griffin</td>
-          <td>$100</td>
-          <td>$100</td>
+          <td><%= listUsers[i].id %></td>
+          <td><%= listUsers[i].email %></td>
+          <td><%= listUsers[i].name %></td>
+          <td><%= listUsers[i].city %></td>
           <td>
             <button style="padding: 4px 10px">Edit</button>
             <button style="padding: 4px 10px">Delete</button>
           </td>
         </tr>
+        <% } %> -->
+
+        <!--use forEach to get static list users-->
+        <% listUsers.forEach(function(user, index) { %>
         <tr>
-          <td>Lois</td>
-          <td>Griffin</td>
-          <td>$150</td>
+          <td><%= user.id %> - <%= index %></td>
+          <td><%= user.email %></td>
+          <td><%= user.name %></td>
+          <td><%= user.city %></td>
+          <td>
+            <a href="/update" style="padding: 4px 10px">Edit</a>
+            <a style="padding: 4px 10px">Delete</a>
+          </td>
         </tr>
-        <tr>
-          <td>Joe</td>
-          <td>Swanson</td>
-          <td>$300</td>
-        </tr>
-        <tr>
-          <td>Cleveland</td>
-          <td>Brown</td>
-          <td>$250</td>
-        </tr>
+        <% }) %>
       </table>
     </div>
   </body>

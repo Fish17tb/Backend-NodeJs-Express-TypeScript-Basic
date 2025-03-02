@@ -36,12 +36,25 @@ const createUser = async (req, res) => {
     `INSERT INTO Users (email, name, city) VALUES (?, ?, ?) `,
     [email, name, city]
   );
-  console.log("check-results:", results),
-  res.send("Created user success!");
+  console.log("check-results:", results), res.send("Created user success!");
 };
 
 const getPageCreate = async (req, res) => {
   res.render("create.ejs");
 };
 
-module.exports = { getHomePage, getName, getInfor, createUser, getPageCreate };
+const getPageUpdate = async (req, res) => {
+  res.render("edit.ejs");
+};
+
+const updateUser = () => {};
+
+module.exports = {
+  getHomePage,
+  getName,
+  getInfor,
+  createUser,
+  getPageCreate,
+  updateUser,
+  getPageUpdate,
+};
