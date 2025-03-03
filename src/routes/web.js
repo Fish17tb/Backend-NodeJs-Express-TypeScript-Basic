@@ -19,7 +19,7 @@ router.get("/test", getInfor);
 
 router.get("/create", getPageCreate);
 
-router.get("/update", getPageUpdate);
+router.get("/update/:id", getPageUpdate);
 
 router.post("/create-user", createUser);
 

@@ -36,7 +36,8 @@ const createUser = async (req, res) => {
     `INSERT INTO Users (email, name, city) VALUES (?, ?, ?) `,
     [email, name, city]
   );
-  console.log("check-results:", results), res.send("Created user success!");
+  // console.log("check-results:", results),
+  res.send("Created user success!");
 };
 
 const getPageCreate = async (req, res) => {
@@ -44,7 +45,17 @@ const getPageCreate = async (req, res) => {
 };
 
 const getPageUpdate = async (req, res) => {
-  res.render("edit.ejs");
+  const userId = req.params.id;
+  // console.log("ck-reqParams", req.params, userId)
+  let [results, fields] = await connection.query(
+    "SELECT * FROM Users WHERE id= ?",
+    [userId]
+  );
+  console.log("check-results:", results);
+
+  let user = results && results.length > 0 ? results[0] : {};
+  console.log("ck-user", user);
+  res.render("edit.ejs", { userEdit: user });
 };
 
 const updateUser = () => {};
