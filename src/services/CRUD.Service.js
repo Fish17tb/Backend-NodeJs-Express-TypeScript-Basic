@@ -5,6 +5,18 @@ const getAllUsers = async () => {
   return results;
 };
 
+const getUserById = async (userId) => {
+  let [results, fields] = await connection.query(
+    `SELECT * FROM Users WHERE id= ?`,
+    [userId]
+  );
+  // console.log("check-results:", results);
+
+  let user = results && results.length > 0 ? results[0] : {};
+  // console.log("ck-user", user);
+  return user;
+};
+
 const updateUserById = async (name, email, city, userId) => {
   let [results, fields] = await connection.query(
     `UPDATE Users
@@ -13,4 +25,11 @@ const updateUserById = async (name, email, city, userId) => {
     [name, email, city, userId]
   );
 };
-module.exports = { getAllUsers, updateUserById };
+
+const deleteUserById = async (userId) => {
+  let [results, fields] = await connection.query(
+    `DELETE FROM Users WHERE id= ?`,
+    [userId]
+  );
+};
+module.exports = { getAllUsers, getUserById, updateUserById, deleteUserById };

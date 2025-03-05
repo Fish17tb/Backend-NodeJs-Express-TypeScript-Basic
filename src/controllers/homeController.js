@@ -1,5 +1,10 @@
 const connection = require("../config/database");
-const { getAllUsers, updateUserById } = require("../services/CRUD.Service");
+const {
+  getAllUsers,
+  updateUserById,
+  getUserById,
+  deleteUserById,
+} = require("../services/CRUD.Service");
 
 const getHomePage = async (req, res) => {
   let results = await getAllUsers();
@@ -47,14 +52,7 @@ const getPageCreate = async (req, res) => {
 const getPageUpdate = async (req, res) => {
   const userId = req.params.id;
   // console.log("ck-reqParams", req.params, userId)
-  let [results, fields] = await connection.query(
-    `SELECT * FROM Users WHERE id= ?`,
-    [userId]
-  );
-  // console.log("check-results:", results);
-
-  let user = results && results.length > 0 ? results[0] : {};
-  // console.log("ck-user", user);
+  let user = await getUserById(userId);
   res.render("edit.ejs", { userEdit: user });
 };
 
@@ -64,9 +62,22 @@ const updateUser = async (req, res) => {
   let city = req.body.city;
   let userId = req.body.userId;
 
-await updateUserById(name, email, city, userId)
+  await updateUserById(name, email, city, userId);
   // res.send("updated user success!")
-  res.redirect("/")
+  res.redirect("/");
+};
+
+const deleteUser = async (req, res) => {
+  // res.send("Delete user success!")
+  let userId = req.params.id;
+  let user = await getUserById(userId);
+  res.render("delete.ejs", { userDelete: user });
+};
+
+const handleRemoveUser = async (req, res) => {
+  let userId = req.body.userId;
+  await deleteUserById(userId);
+  res.redirect("/");
 };
 
 module.exports = {
@@ -77,4 +88,6 @@ module.exports = {
   getPageCreate,
   updateUser,
   getPageUpdate,
+  deleteUser,
+  handleRemoveUser,
 };
