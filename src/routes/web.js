@@ -25,6 +25,6 @@ router.post("/create-user", createUser);
 
 router.post("/create-user", createUser);
 
-router.put("update-user", updateUser)
+router.post("/update-user", updateUser)
 
 module.exports = router;
