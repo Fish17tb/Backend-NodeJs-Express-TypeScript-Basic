@@ -19,11 +19,8 @@ configViewEngine(app);
 // khai báo route
 app.use("/", webRoutes);
 
-// A simple SELECT query
-// connection.query("SELECT * FROM Users", function (err, results, fields) {
-//   // console.log("check-results", results); // results contains rows returned by server
-//   // console.log("check-fields", fields); // fields contains extra meta data about results, if available
-// });
+// test connection
+connection()
 
 app.listen(port, hostname, () => {
   console.log(`Example app listening on port ${port}`);
