@@ -19,9 +19,16 @@ configViewEngine(app);
 // khai báo route
 app.use("/", webRoutes);
 
-// test connection
-connection()
-
-app.listen(port, hostname, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+// anonymous function to handle logic run order
+(async () => {
+  try {
+    // test connection
+    await connection();
+    // listen
+    app.listen(port, hostname, () => {
+      console.log(`Backend app listening on port ${port}`);
+    });
+  } catch (error) {
+    console.log("Error connect to DB:", error);
+  }
+})();
