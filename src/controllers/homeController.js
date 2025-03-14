@@ -67,7 +67,8 @@ const getPageCreate = async (req, res) => {
 const getPageUpdate = async (req, res) => {
   const userId = req.params.id;
   // console.log("ck-reqParams", req.params, userId)
-  let user = await getUserById(userId);
+  // let user = await getUserById(userId);
+  let user = await User.findById(userId);
   res.render("edit.ejs", { userEdit: user });
 };
 
@@ -77,7 +78,11 @@ const updateUser = async (req, res) => {
   let city = req.body.city;
   let userId = req.body.userId;
 
-  await updateUserById(name, email, city, userId);
+  // await updateUserById(name, email, city, userId);
+  await User.updateOne(
+    { _id: userId },
+    { name: name, email: email, city: city }
+  );
   // res.send("updated user success!")
   res.redirect("/");
 };
