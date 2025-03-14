@@ -90,13 +90,16 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   // res.send("Delete user success!")
   let userId = req.params.id;
-  let user = await getUserById(userId);
+  // let user = await getUserById(userId);
+  let user = await User.findById(userId)
   res.render("delete.ejs", { userDelete: user });
 };
 
 const handleRemoveUser = async (req, res) => {
   let userId = req.body.userId;
-  await deleteUserById(userId);
+  // await deleteUserById(userId);
+  let result = await User.deleteOne({_id: userId})
+  console.log("result:", result)
   res.redirect("/");
 };
 
