@@ -27,8 +27,6 @@ router.get("/update/:id", getPageUpdate);
 
 router.post("/create-user", createUser);
 
-router.post("/create-user", createUser);
-
 router.post("/update-user", updateUser);
 
 router.post("/delete-user/:id", deleteUser);
