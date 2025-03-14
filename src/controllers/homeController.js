@@ -5,9 +5,10 @@ const {
   getUserById,
   deleteUserById,
 } = require("../services/CRUD.Service");
+const User = require("../models/User");
 
 const getHomePage = async (req, res) => {
-  let results = await getAllUsers();
+  let results = [];
   // console.log("check-result:", results);
   return res.render("home.ejs", { listUsers: results });
 };
@@ -37,11 +38,25 @@ const createUser = async (req, res) => {
   // );
 
   // use connection with async await
-  let [results, fields] = await connection.query(
-    `INSERT INTO Users (email, name, city) VALUES (?, ?, ?) `,
-    [email, name, city]
-  );
+  // create user in database mySQL
+  // let [results, fields] = await connection.query(
+  //   `INSERT INTO Users (email, name, city) VALUES (?, ?, ?) `,
+  //   [email, name, city]
+  // );
   // console.log("check-results:", results),
+
+  // create user in database mongoDB
+  // await User.create({
+  //   email: email,
+  //   name: name,
+  //   city: city,
+  // });
+  await User.create({
+    email,
+    name,
+    city,
+  });
+
   res.send("Created user success!");
 };
 
