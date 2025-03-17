@@ -17,7 +17,7 @@ const createUserAPI = async (req, res) => {
   });
 };
 
-const UpdateAUserAPI = async (req, res) => {
+const UpdateUserAPI = async (req, res) => {
   let name = req.body.name;
   let email = req.body.email;
   let city = req.body.city;
@@ -33,8 +33,18 @@ const UpdateAUserAPI = async (req, res) => {
   });
 };
 
+const DeleteUserAPI = async (req, res) => {
+  let userId = req.body.userId;
+  let result = await User.deleteOne({_id: userId})
+  return res.status(200).json({
+    errorCode: 0,
+    data: result
+  })
+};
+
 module.exports = {
   getUsersAPI,
   createUserAPI,
-  UpdateAUserAPI,
+  UpdateUserAPI,
+  DeleteUserAPI,
 };
