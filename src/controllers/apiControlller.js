@@ -17,7 +17,24 @@ const createUserAPI = async (req, res) => {
   });
 };
 
+const UpdateAUserAPI = async (req, res) => {
+  let name = req.body.name;
+  let email = req.body.email;
+  let city = req.body.city;
+  let userId = req.body.userId;
+
+  let user = await User.updateOne(
+    { _id: userId },
+    { name: name, email: email, city: city }
+  );
+  return res.status(200).json({
+    errorCode: 0,
+    data: user,
+  });
+};
+
 module.exports = {
   getUsersAPI,
   createUserAPI,
+  UpdateAUserAPI,
 };
