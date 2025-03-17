@@ -8,6 +8,16 @@ const getUsersAPI = async (req, res) => {
   });
 };
 
+const createUserAPI = async (req, res) => {
+  let { email, name, city } = req.body;
+  let user = await User.create({ email, name, city });
+  return res.status(201).json({
+    errorCode: 0,
+    data: user,
+  });
+};
+
 module.exports = {
   getUsersAPI,
+  createUserAPI,
 };
