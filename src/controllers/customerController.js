@@ -7,8 +7,8 @@ const {
   customerService,
   customerArrayService,
   getCustomersService,
+  UpdateCustomerService,
 } = require("../services/customerService");
-const Customer = require("../models/Customers");
 
 module.exports = {
   CreateCustomerAPI: async (req, res) => {
@@ -44,6 +44,7 @@ module.exports = {
       data: customer,
     });
   },
+
   CreateArrayCustomerAPI: async (req, res) => {
     // console.log("check-data", req.body.customers)
     let customers = await customerArrayService(req.body.customers);
@@ -59,11 +60,39 @@ module.exports = {
       });
     }
   },
+
   getCustomersAPI: async (req, res) => {
     let results = await getCustomersService();
     return res.status(200).json({
       errorCode: 0,
       data: results,
     });
+  },
+
+  UpdateCustomerAPI: async (req, res) => {
+    let { _id, name, address, phone, email, description } = req.body;
+    console.log("check-req:", req.body);
+
+    const customerData = {
+      _id,
+      name,
+      address,
+      phone,
+      email,
+      description,
+    };
+
+    let customer = await UpdateCustomerService(customerData);
+    if (customer) {
+      return res.status(200).json({
+        errorCode: 0,
+        data: customer,
+      });
+    } else {
+      return res.status(400).json({
+        errorCode: -1,
+        data: null,
+      });
+    }
   },
 };

@@ -38,4 +38,29 @@ const getCustomersService = async () => {
     return null;
   }
 };
-module.exports = { customerService, customerArrayService, getCustomersService };
+
+const UpdateCustomerService = async (customerData) => {
+  try {
+    let result = await Customer.updateOne(
+      { _id: customerData._id },
+      {
+        name: customerData.name,
+        address: customerData.address,
+        phone: customerData.phone,
+        email: customerData.email,
+        description: customerData.description,
+      }
+    );
+    return result;
+  } catch (error) {
+    console.log("ERROR:", error);
+    return null;
+  }
+};
+
+module.exports = {
+  customerService,
+  customerArrayService,
+  getCustomersService,
+  UpdateCustomerService,
+};
