@@ -19,7 +19,7 @@ const customerSchema = new mongoose.Schema(
 );
 
 // soft delete mongodb (auto add deleted = true/false)
-customerSchema.plugin(mongoose_delete);
+customerSchema.plugin(mongoose_delete, { overrideMethods: "all" });
 
 const Customer = mongoose.model("Customer", customerSchema);
 

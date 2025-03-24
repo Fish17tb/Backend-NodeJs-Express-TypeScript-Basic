@@ -8,6 +8,7 @@ const {
   customerArrayService,
   getCustomersService,
   UpdateCustomerService,
+  DeleteCustomerService,
 } = require("../services/customerService");
 
 module.exports = {
@@ -71,7 +72,7 @@ module.exports = {
 
   UpdateCustomerAPI: async (req, res) => {
     let { _id, name, address, phone, email, description } = req.body;
-    console.log("check-req:", req.body);
+    // console.log("check-req:", req.body);
 
     const customerData = {
       _id,
@@ -94,5 +95,15 @@ module.exports = {
         data: null,
       });
     }
+  },
+
+  DeleteCustomerAPI: async (req, res) => {
+    let _id = req.body._id;
+    // console.log("check-id:", _id)
+    let result = await DeleteCustomerService(_id);
+    return res.status(200).json({
+      errorCode: 0,
+      data: result,
+    });
   },
 };
