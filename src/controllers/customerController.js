@@ -3,7 +3,12 @@
 // way default => apiControlller.js
 
 const { uploadSingleFile } = require("../services/fileService");
-const customerService = require("../services/customerService");
+const {
+  customerService,
+  customerArrayService,
+  getCustomersService,
+} = require("../services/customerService");
+const Customer = require("../models/Customers");
 
 module.exports = {
   CreateCustomerAPI: async (req, res) => {
@@ -37,6 +42,28 @@ module.exports = {
     return res.status(200).json({
       errorCode: 0,
       data: customer,
+    });
+  },
+  CreateArrayCustomerAPI: async (req, res) => {
+    // console.log("check-data", req.body.customers)
+    let customers = await customerArrayService(req.body.customers);
+    if (customers) {
+      return res.status(200).json({
+        errorCode: 0,
+        data: customers,
+      });
+    } else {
+      return res.status(400).json({
+        errorCode: -1,
+        data: null,
+      });
+    }
+  },
+  getCustomersAPI: async (req, res) => {
+    let results = await getCustomersService();
+    return res.status(200).json({
+      errorCode: 0,
+      data: results,
     });
   },
 };
