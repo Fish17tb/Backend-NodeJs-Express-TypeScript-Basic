@@ -60,9 +60,19 @@ const UpdateCustomerService = async (customerData) => {
 
 const DeleteCustomerService = async (_id) => {
   try {
-    // 
-    let result = await Customer.deleteById(_id)
-    return result
+    //
+    let result = await Customer.deleteById(_id);
+    return result;
+  } catch (error) {
+    console.log("ERROR:", error);
+    return null;
+  }
+};
+
+const DeleteArrayCustomerService = async (arrayId) => {
+  try {
+    let result = await Customer.delete({ _id: { $in: arrayId } });
+    return result;
   } catch (error) {
     console.log("ERROR:", error);
     return null;
@@ -75,4 +85,5 @@ module.exports = {
   getCustomersService,
   UpdateCustomerService,
   DeleteCustomerService,
+  DeleteArrayCustomerService,
 };
