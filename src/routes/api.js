@@ -43,4 +43,22 @@ routerAPI.put("/customers", UpdateCustomerAPI);
 routerAPI.delete("/customers", DeleteCustomerAPI);
 routerAPI.delete("/customers-many", DeleteArrayCustomerAPI);
 
+// req.query (Used to transmit a lot of information (dependency on data you have))
+// no need to declare additional routes, existing routes can be reused
+routerAPI.get("/req-query", (req, res) => {
+  console.log("check-query", req.query);
+  return res.status(200).json({
+    data: req.query,
+  });
+});
+
+// req.params (You need to define a new route when using it)
+// only suitable for dynamic data queries with a small payload
+routerAPI.get("/req-params/:name/:address", (req, res) => {
+  console.log("check-query", req.params);
+  return res.status(200).json({
+    data: req.params,
+  });
+});
+
 module.exports = routerAPI;
