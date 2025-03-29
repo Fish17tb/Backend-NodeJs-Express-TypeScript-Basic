@@ -64,14 +64,14 @@ module.exports = {
   },
 
   getCustomersAPI: async (req, res) => {
+   
     let limit = req.query.limit;
     let page = req.query.page;
     // console.log(limit, page)
     let result = null;
     if (limit && page) {
-      result = await getCustomersService(limit, page);
-    } else 
-     result = await getCustomersService();
+      result = await getCustomersService(limit, page, req.query);
+    } else result = await getCustomersService();
     return res.status(200).json({
       errorCode: 0,
       data: result,

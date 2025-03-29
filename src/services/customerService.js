@@ -1,6 +1,7 @@
 // logic connect to DB
 
 const Customer = require("../models/Customers");
+const aqp = require("api-query-params");
 
 const customerService = async (customerData) => {
   try {
@@ -29,12 +30,16 @@ const customerArrayService = async (arr) => {
   }
 };
 
-const getCustomersService = async (limit, page) => {
+const getCustomersService = async (limit, page, queryString) => {
   try {
     let result = null;
     if (limit && page) {
       let offset = (page - 1) * limit;
-      result = await Customer.find({}).skip(offset).limit(limit).exec();
+      const { filter, skip } = aqp(queryString);
+      delete filter.page;
+
+      // console.log("hnv-filer", filter);
+      result = await Customer.find(filter).skip(offset).limit(limit).exec();
     } else {
       result = await Customer.find({});
     }
