@@ -48,9 +48,16 @@ app.use("/v1/api/", apiRoutes);
     const dbName = process.env.DB_NAME;
     await client.connect();
     console.log("Connected successfully to server");
-    
+
     const db = client.db(dbName);
-    const collection = db.collection("documents");
+    const collection = db.collection("drivers");
+
+    // const insertOne = await collection.insertOne({ name: "Hoàng Nguyên Vũ" });
+    // const insert = await collection.insertOne({ address: "Thái Bình" });
+    // console.log("insertOne:", insertOne);
+
+    const findOne = await collection.findOne({ address: 'Thái Bình' });
+    console.log("findOne",findOne)
 
     // listen
     app.listen(port, hostname, () => {
