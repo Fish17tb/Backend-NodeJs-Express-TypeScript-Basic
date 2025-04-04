@@ -52,12 +52,33 @@ app.use("/v1/api/", apiRoutes);
     const db = client.db(dbName);
     const collection = db.collection("drivers");
 
+    // embedded (nested)
+    collection.insertOne({
+      name: "Trần Bình",
+      address: [
+        {
+          province: "Hà Nội",
+          country: {
+            name: "Việt Nam",
+            code: 1000,
+          },
+        },
+        {
+          province: "New York",
+          country: {
+            name: "USA",
+            code: 2001,
+          },
+        },
+      ],
+    });
+
     // const insertOne = await collection.insertOne({ name: "Hoàng Nguyên Vũ" });
     // const insert = await collection.insertOne({ address: "Thái Bình" });
     // console.log("insertOne:", insertOne);
 
-    const findOne = await collection.findOne({ address: 'Thái Bình' });
-    console.log("findOne",findOne)
+    const findOne = await collection.findOne({ address: "Thái Bình" });
+    console.log("findOne", findOne);
 
     // listen
     app.listen(port, hostname, () => {
