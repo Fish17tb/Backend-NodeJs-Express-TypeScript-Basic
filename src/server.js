@@ -6,7 +6,6 @@ const apiRoutes = require("./routes/api");
 const connection = require("./config/database");
 const fileUpload = require("express-fileupload");
 // const Kitten = require("./models/Kitten");
-const { MongoClient } = require("mongodb");
 
 const app = express();
 const port = process.env.PORT || 8386;
@@ -37,48 +36,7 @@ app.use("/v1/api/", apiRoutes);
   try {
     // using mongoose
     // test connection
-    // await connection();
-
-    // using mongodb
-    // Connection URL
-    const url = process.env.DB_HOST_WITH_DRIVER;
-    const client = new MongoClient(url);
-
-    // Database Name
-    const dbName = process.env.DB_NAME;
-    await client.connect();
-    console.log("Connected successfully to server");
-
-    const db = client.db(dbName);
-    const collection = db.collection("drivers");
-
-    // embedded (nested)
-    collection.insertOne({
-      name: "Trần Bình",
-      address: [
-        {
-          province: "Hà Nội",
-          country: {
-            name: "Việt Nam",
-            code: 1000,
-          },
-        },
-        {
-          province: "New York",
-          country: {
-            name: "USA",
-            code: 2001,
-          },
-        },
-      ],
-    });
-
-    // const insertOne = await collection.insertOne({ name: "Hoàng Nguyên Vũ" });
-    // const insert = await collection.insertOne({ address: "Thái Bình" });
-    // console.log("insertOne:", insertOne);
-
-    const findOne = await collection.findOne({ address: "Thái Bình" });
-    console.log("findOne", findOne);
+    await connection();
 
     // listen
     app.listen(port, hostname, () => {

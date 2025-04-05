@@ -5,7 +5,7 @@ const {
   getUserById,
   deleteUserById,
 } = require("../services/CRUD.Service");
-const User = require("../models/User");
+const User = require("../models/Users");
 
 const getHomePage = async (req, res) => {
   let results = await User.find({});
