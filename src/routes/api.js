@@ -15,6 +15,7 @@ const {
   DeleteCustomerAPI,
   DeleteArrayCustomerAPI,
 } = require("../controllers/customerController");
+const { CreateProjectAPI } = require("../controllers/projectController");
 
 const routerAPI = express.Router();
 
@@ -42,6 +43,8 @@ routerAPI.get("/customers", getCustomersAPI);
 routerAPI.put("/customers", UpdateCustomerAPI);
 routerAPI.delete("/customers", DeleteCustomerAPI);
 routerAPI.delete("/customers-many", DeleteArrayCustomerAPI);
+
+routerAPI.post("/projects", CreateProjectAPI);
 
 // req.query (Used to transmit a lot of information (dependency on data you have))
 // no need to declare additional routes, existing routes can be reused
