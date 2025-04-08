@@ -1,4 +1,5 @@
 const Project = require("../models/Projects");
+const aqp = require("api-query-params");
 
 const CreateProjectService = async (data) => {
   try {
@@ -22,6 +23,32 @@ const CreateProjectService = async (data) => {
   }
 };
 
+const GetProjectService = async (queryString) => {
+  try {
+    let result = null;
+    const page = queryString.page;
+    const limit = queryString.limit;
+    if (limit && page) {
+      let offset = (page - 1) * limit;
+      const { filter, population } = aqp(queryString);
+      delete filter.page;
+      // console.log("hnv-filer", filter);
+      result = await Project.find(filter)
+        .skip(offset)
+        .limit(limit)
+        .populate(population)
+        .exec();
+    } else {
+      result = await Project.find({});
+    }
+    return result;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 module.exports = {
   CreateProjectService,
+  GetProjectService,
 };
