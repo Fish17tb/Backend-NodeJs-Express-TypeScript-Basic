@@ -48,7 +48,54 @@ const GetProjectService = async (queryString) => {
   }
 };
 
+const UpdateProjectService = async (projectData) => {
+  try {
+    let result = await Project.updateOne(
+      { _id: projectData._id },
+      {
+        name: projectData.name,
+        startDate: projectData.startDate,
+        endDate: projectData.endDate,
+        description: projectData.description,
+      }
+    );
+    return result;
+  } catch (error) {
+    console.log("ERROR:", error);
+    return null;
+  }
+};
+
+const DeleteProjectService = async (_id) => {
+  try {
+    let result = await Project.deleteById(_id);
+    return result;
+  } catch (error) {
+    console.log("ERROR:", error);
+    return null;
+  }
+};
+
+const DeleteUserFromProjectService = async (data) => {
+  try {
+    if (data.type === "REMOVE-USERS") {
+      let myProject = await Project.findById(data.projectId);
+      for (let i = 0; i < data.usersArr.length; i++) {
+        myProject.usersInfor.pull(data.usersArr[i]);
+      }
+      let newResult = await myProject.save();
+      return newResult;
+    }
+  } catch (error) {
+    console.log("ERROR:", error);
+    return null;
+  }
+};
+
 module.exports = {
   CreateProjectService,
   GetProjectService,
+  UpdateProjectService,
+  DeleteProjectService,
+  DeleteUserFromProjectService,
 };
