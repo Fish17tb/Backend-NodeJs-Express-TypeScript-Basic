@@ -22,6 +22,7 @@ const {
   DeleteProjectAPI,
   DeleteUserFromProjectAPI,
 } = require("../controllers/projectController");
+const { CreateTaskAPI, GetTasksAPI, UpdateTaskAPI, DeleteTaskAPI } = require("../controllers/taskController");
 
 const routerAPI = express.Router();
 
@@ -55,6 +56,11 @@ routerAPI.get("/projects", GetProjectAPI);
 routerAPI.put("/projects", UpdateProjectAPI);
 routerAPI.delete("/projects", DeleteProjectAPI);
 routerAPI.delete("/projects-user", DeleteUserFromProjectAPI);
+
+routerAPI.post("/tasks", CreateTaskAPI);
+routerAPI.get("/tasks", GetTasksAPI);
+routerAPI.put("/tasks", UpdateTaskAPI);
+routerAPI.delete("/tasks", DeleteTaskAPI);
 
 // req.query (Used to transmit a lot of information (dependency on data you have))
 // no need to declare additional routes, existing routes can be reused
