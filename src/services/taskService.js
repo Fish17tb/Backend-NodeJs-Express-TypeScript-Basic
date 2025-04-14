@@ -36,16 +36,9 @@ module.exports = {
 
   UpdateTaskService: async (data) => {
     try {
-      let result = await Task.updateOne(
-        { _id: data._id },
-        {
-          name: data.name,
-          description: data.description,
-          status: data.status,
-          startDate: data.startDate,
-          endDate: data.endDate,
-        }
-      );
+      // let t = {...data}
+      let result = await Task.updateOne({ _id: data._id }, { ...data });
+      console.log("result", result)
       return result;
     } catch (error) {
       console.log("ERROR", error);
