@@ -9,8 +9,38 @@ module.exports = {
   CreateTaskAPI: async (req, res) => {
     // let data = { type, name, startDate, endDate, descriptio, status } = req.body;
     //   console.log("hnv-data:", data)
+
+    // validate data
+    const userJoiSchema = Joi.object({
+      name: Joi.string().required(),
+      email: Joi.string().email().required(),
+    });
+
+    const projectJoiSchema = Joi.object({
+      name: Joi.string().required(),
+      startDate: Joi.string().optional(),
+      endDate: Joi.string().optional(),
+      description: Joi.string().optional(),
+    });
+
+    const taskSchema = Joi.object({
+      name: Joi.string().required(),
+      description: Joi.string().optional(),
+      status: Joi.string().optional(),
+      startDate: Joi.string().optional(),
+      endDate: Joi.string().optional(),
+      usersInfo: userJoiSchema.required(),
+      projectInfo: projectJoiSchema.required(),
+    });
+
+    const { error } = taskSchema.validate(req.body, { abortEarly: false });
+    if (error) {
+      return res.status(400).json({
+        message: error,
+      });
+    }
     let result = await CreateTaskService(req.body);
-    return res.status(200).json({
+    return res.status(201).json({
       errorCode: 0,
       data: result,
     });

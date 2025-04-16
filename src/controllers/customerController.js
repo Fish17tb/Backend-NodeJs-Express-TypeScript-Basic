@@ -11,40 +11,64 @@ const {
   DeleteCustomerService,
   DeleteArrayCustomerService,
 } = require("../services/customerService");
+const Joi = require("joi");
 
 module.exports = {
   CreateCustomerAPI: async (req, res) => {
     let { name, address, phone, email, description } = req.body;
     // console.log("check-value:", "name:", name, email)
 
-    imageURL = "";
+    // validate data
+    const customerSchema = Joi.object({
+      name: Joi.string().alphanum().min(3).max(30).required(),
 
-    if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).send("No files were uploaded.");
-    } else {
-      let result = await uploadSingleFile(req.files.image);
-      //   console.log("check-path", result.path)
-      imageURL = result.path;
-    }
+      address: Joi.string(),
 
-    const customerData = {
-      // can be written as {key: value}
-      //  but not here because key and value are the same (eg: name: name)
-      name,
-      address,
-      phone,
-      email,
-      description,
-      image: imageURL,
-    };
-    // console.log("check-customerData", customerData)
+      phone: Joi.string().pattern(new RegExp("^[0-9]{10,15}$")),
 
-    let customer = await customerService(customerData);
+      email: Joi.string().email({
+        minDomainSegments: 2,
+        tlds: { allow: ["com", "net"] },
+      }),
 
-    return res.status(200).json({
-      errorCode: 0,
-      data: customer,
+      description: Joi.string(),
     });
+
+    const { error } = customerSchema.validate(req.body, { abortEarly: false });
+    if (error) {
+      return res.status(400).json({
+        message: error,
+      });
+    } else {
+      imageURL = "";
+
+      if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send("No files were uploaded.");
+      } else {
+        let result = await uploadSingleFile(req.files.image);
+        //   console.log("check-path", result.path)
+        imageURL = result.path;
+      }
+
+      const customerData = {
+        // can be written as {key: value}
+        //  but not here because key and value are the same (eg: name: name)
+        name,
+        address,
+        phone,
+        email,
+        description,
+        image: imageURL,
+      };
+      // console.log("check-customerData", customerData)
+
+      let customer = await customerService(customerData);
+
+      return res.status(200).json({
+        errorCode: 0,
+        data: customer,
+      });
+    }
   },
 
   CreateArrayCustomerAPI: async (req, res) => {
@@ -64,7 +88,6 @@ module.exports = {
   },
 
   getCustomersAPI: async (req, res) => {
-   
     let limit = req.query.limit;
     let page = req.query.page;
     // console.log(limit, page)

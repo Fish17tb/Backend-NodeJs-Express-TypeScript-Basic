@@ -1,3 +1,4 @@
+const Joi = require("joi");
 const {
   CreateProjectService,
   GetProjectService,
@@ -10,11 +11,40 @@ const CreateProjectAPI = async (req, res) => {
   // let data = ({type,name,startDate,endDate,description,customerInfor,leader,} = req.body);
   //   console.log("test-reqBody", data);
 
-  let result = await CreateProjectService(req.body);
-  return res.status(201).json({
-    errorCode: 0,
-    data: result,
+  // validate data
+  const customerJoiSchema = Joi.object({
+    name: Joi.string().required(),
+    contact: Joi.string().required(),
   });
+
+  const leaderJoiSchema = Joi.object({
+    name: Joi.string().required(),
+    email: Joi.string().email().required(),
+  });
+
+  const projectSchema = Joi.object({
+    name: Joi.string().alphanum().min(3).max(30).required(),
+    startDate: Joi.string().required(),
+    endDate: Joi.string().required(),
+    description: Joi.string(),
+    customerInfor: customerJoiSchema,
+    usersInfor: Joi.array().items(Joi.string().hex().length(24)),
+    leader: leaderJoiSchema,
+    tasks: Joi.array().items(Joi.string().hex().length(24)),
+  });
+
+  const { error } = projectSchema.validate(req.body, { abortEarly: false });
+  if (error) {
+    return res.status(400).json({
+      message: error,
+    });
+  } else {
+    let result = await CreateProjectService(req.body);
+    return res.status(201).json({
+      errorCode: 0,
+      data: result,
+    });
+  }
 };
 
 const GetProjectAPI = async (req, res) => {
